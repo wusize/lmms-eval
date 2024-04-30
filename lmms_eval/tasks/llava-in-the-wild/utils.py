@@ -83,6 +83,8 @@ def get_eval(content: str, max_tokens: int, retries: int = 5):
             else:  # If this was the last attempt, log and return empty
                 eval_logger.error(f"All {retries} attempts failed. Last error message: {e}")
                 return "", ""
+    eval_logger.info(f"Sleep 5 seconds after a request.")
+    time.sleep(5)
     return "", ""
 
 
