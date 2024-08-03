@@ -9,6 +9,11 @@ import time
 import yaml
 from pathlib import Path
 from copy import deepcopy
+headers = {
+    "Content-Type": "application/json",
+    "api-key": os.getenv("GPT4_KEY"),
+}
+API_URL = os.getenv("GPT4_ENDPOINT")
 
 eval_logger = logging.getLogger("lmms-eval")
 NUM_SECONDS_TO_SLEEP = 5
@@ -27,24 +32,24 @@ with open(Path(__file__).parent / "llava-in-the-wild.yaml", "r") as f:
 
     config = yaml.safe_load("".join(safe_data))
 
-GPT_EVAL_MODEL_NAME = config["metadata"]["gpt_eval_model_name"]
+# GPT_EVAL_MODEL_NAME = config["metadata"]["gpt_eval_model_name"]
 
-API_TYPE = os.getenv("API_TYPE", "openai")
+# API_TYPE = os.getenv("API_TYPE", "openai")
 
-if API_TYPE == "openai":
-    API_URL = os.getenv("OPENAI_API_URL", "https://api.openai.com/v1/chat/completions")
-    API_KEY = os.getenv("OPENAI_API_KEY", "YOUR_API_KEY")
-    headers = {
-        "Authorization": f"Bearer {API_KEY}",
-        "Content-Type": "application/json",
-    }
-elif API_TYPE == "azure":
-    API_URL = os.getenv("AZURE_ENDPOINT", "https://api.cognitive.microsoft.com/sts/v1.0/issueToken")
-    API_KEY = os.getenv("AZURE_API_KEY", "YOUR_API_KEY")
-    headers = {
-        "api-key": API_KEY,
-        "Content-Type": "application/json",
-    }
+# if API_TYPE == "openai":
+#     API_URL = os.getenv("OPENAI_API_URL", "https://api.openai.com/v1/chat/completions")
+#     API_KEY = os.getenv("OPENAI_API_KEY", "YOUR_API_KEY")
+#     headers = {
+#         "Authorization": f"Bearer {API_KEY}",
+#         "Content-Type": "application/json",
+#     }
+# elif API_TYPE == "azure":
+#     API_URL = os.getenv("AZURE_ENDPOINT", "https://api.cognitive.microsoft.com/sts/v1.0/issueToken")
+#     API_KEY = os.getenv("AZURE_API_KEY", "YOUR_API_KEY")
+#     headers = {
+#         "api-key": API_KEY,
+#         "Content-Type": "application/json",
+#     }
 
 
 def get_eval(content: str, max_tokens: int, retries: int = 5):
@@ -59,7 +64,7 @@ def get_eval(content: str, max_tokens: int, retries: int = 5):
     ]
 
     payload = {
-        "model": GPT_EVAL_MODEL_NAME,
+        # "model": GPT_EVAL_MODEL_NAME,
         "messages": messages,
         "temperature": 0.2,
         "max_tokens": max_tokens,
