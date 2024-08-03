@@ -126,8 +126,8 @@ def mmvet_process_results(doc, results):
             score = 0.0
             grade_sample_run_complete = True
             eval_logger.info(f"{doc['question_id']} failed to get a score.")
-    eval_logger.info("Sleep 5 secs, after a round of query.")
-    time.sleep(5)
+    eval_logger.info("Sleep 1 sec, after a round of query.")
+    time.sleep(1)
     return {
         f"gpt_eval_score": {
             "question_id": doc["question_id"],
